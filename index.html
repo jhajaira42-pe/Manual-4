@@ -537,7 +537,7 @@ function renderHome() {
   document.getElementById('h-name').textContent = S.prof.nombre || 'Capacitador';
   document.getElementById('h-tienda-lbl').textContent = S.prof.tienda || '';
   document.getElementById('h-date').textContent = now.toLocaleDateString('es-PE',{weekday:'long',day:'numeric',month:'long'});
-  const today = now.toISOString().slice(0,10);
+  const today = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
   const todaySess = S.sess.filter(s => s.fecha === today);
   document.getElementById('h-done').textContent = todaySess.length;
   document.getElementById('h-trained').textContent = S.sess.filter(s => s.fecha === today).reduce((a,s) => a + (s.group?.length || 1), 0);
@@ -561,7 +561,7 @@ async function loadAlerts() {
   } catch { S.alerts = demoAlerts(); return S.alerts; }
 }
 function demoAlerts() {
-  const t = new Date().toISOString().slice(0,10);
+  const _td=new Date(); const t=_td.getFullYear()+"-"+String(_td.getMonth()+1).padStart(2,"0")+"-"+String(_td.getDate()).padStart(2,"0");
   return [
     {fila:2,tienda:'Wong Dos de Mayo',nombres:'Ana',apellidos:'García Ramos',dni:'74801234',telefono:'987654321',tipo:'Picker',fechaIngreso:t,turno:'AM',contactado:false,asistencia:false},
     {fila:3,tienda:'Wong Dos de Mayo',nombres:'Luis',apellidos:'Huaman Pérez',dni:'72345678',telefono:'976543210',tipo:'Picker gig',fechaIngreso:t,turno:'AM',contactado:false,asistencia:false},
@@ -962,7 +962,7 @@ async function saveAll() {
   const btn = document.getElementById('sum-btn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spin"></span> Guardando...';
-  const fecha = new Date().toISOString().slice(0,10);
+  const _now = new Date(); const fecha = _now.getFullYear() + '-' + String(_now.getMonth()+1).padStart(2,'0') + '-' + String(_now.getDate()).padStart(2,'0');
   const url = S.prof.url || SCRIPT_URL;
   const useSheet = !!url;
   const results = [];
